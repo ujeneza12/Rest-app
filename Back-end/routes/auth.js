@@ -1,10 +1,12 @@
+require("dotenv").config();
+
 const router = require("express").Router();
+const jwt = require("jsonwebtoken");
 
 const db = require("../db");
 
-
 router.post("/signin", (req, res) => {
- const sql =
+  const sql =
     "INSERT INTO signin(`ID`,`firstname`,`lastname`,`NationalID`,`telephone`,`email`,`department`,`Position`,`Manufacturer`,`Model`,`SerialNumber`,`password`) values(?)";
   const values = [
     req.body.ID,
@@ -32,18 +34,19 @@ router.post("/signin", (req, res) => {
 router.post("/login", (req, res) => {
   const sql = "SELECT * FROM signin where `email`=? AND `password`=?";
   const values = [req.body.email, req.body.password];
+  const user = { email: values.email };
+  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '1h' });
 
   db.query(sql, [req.body.email, req.body.password], (err, data) => {
     if (err) {
       return res.json("error");
     }
     if (data.length > 0) {
-      return res.json("success");
+      return res.json({ accessToken: accessToken });
     } else {
-      return res.json("faile");
+      return res.json("failed");
     }
   });
 });
 
-module.exports = router
-  
+module.exports = router;
