@@ -42,7 +42,8 @@ router.post("/login", (req, res) => {
       return res.json("error");
     }
     if (data.length > 0) {
-      return res.json({ accessToken: accessToken });
+      return res.status(200).json({ accessToken: accessToken });
+
     } else {
       return res.json("failed");
     }

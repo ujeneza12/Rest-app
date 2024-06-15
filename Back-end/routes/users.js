@@ -24,7 +24,7 @@ router.put("/:id", (req, res) => {
   const { id } = req.params;
   const { firstname,lastname,NationalID,telephone,email,department,Position,Manufacturer,Model,SerialNumber} = req.body;
   db.query(
-    "UPDATE users SET firstname = ?,lastname = ?,NationalID = ?,telephone = ?,email = ?,department = ?,Position = ?,Manufacturer = ?,Model = ?,SerialNumber= ? WHERE ID = ?",
+    "UPDATE signin SET firstname = ?,lastname = ?,NationalID = ?,telephone = ?,email = ?,department = ?,Position = ?,Manufacturer = ?,Model = ?,SerialNumber= ? WHERE ID = ?",
     [id,firstname,lastname,NationalID,telephone,email,department,Position,Manufacturer,Model,SerialNumber],
     (err) => {
       if (err) throw err;
@@ -34,9 +34,9 @@ router.put("/:id", (req, res) => {
 });
 
 // Delete a user
-router.delete("/users/:id", (req, res) => {
+router.delete("/user/:id", (req, res) => {
   const { id } = req.params;
-  db.query("DELETE FROM users WHERE id = ?", [id], (err) => {
+  db.query("DELETE FROM signin WHERE id = ?", [id], (err) => {
     if (err) throw err;
     res.json({ message: "User deleted successfully" });
   });
