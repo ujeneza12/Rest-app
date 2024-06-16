@@ -42,4 +42,43 @@ router.delete("/user/:id", (req, res) => {
   });
 });
 
+
+router.post("/signup", (req, res) => {
+  const sql =
+    "INSERT INTO user(`email`,`password`) values(?)";
+  const values = [
+    req.body.email,
+    req.body.password,
+  ];
+
+  db.query(sql, [values], (err, data) => {
+    if (err) {
+      return res.json("error");
+    }
+    return res.json(data);
+  });
+}); 
+
+
+router.post("/login", (req, res) => {
+  const sql = "SELECT * FROM user where `email`=? AND `password`=?";
+  const values = [req.body.email, req.body.password];
+  const user = { email: values.email };
+  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '1h' });
+
+  db.query(sql, [req.body.email, req.body.password], (err, data) => {
+    if (err) {
+      return res.json("error");
+    }
+    if (data.length > 0) {
+      return res.status(200).json({ accessToken: accessToken });
+
+    } else {
+      return res.json("failed");
+    }
+  });
+});
+
+
+
 module.exports = router;

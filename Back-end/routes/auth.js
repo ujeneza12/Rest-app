@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const db = require("../db");
 
-router.post("/signin", (req, res) => {
+router.post("/employee-signin", (req, res) => {
   const sql =
     "INSERT INTO signin(`ID`,`firstname`,`lastname`,`NationalID`,`telephone`,`email`,`department`,`Position`,`Manufacturer`,`Model`,`SerialNumber`,`password`) values(?)";
   const values = [
@@ -29,9 +29,9 @@ router.post("/signin", (req, res) => {
     }
     return res.json(data);
   });
-});
+}); 
 
-router.post("/login", (req, res) => {
+router.post("/employee-login", (req, res) => {
   const sql = "SELECT * FROM signin where `email`=? AND `password`=?";
   const values = [req.body.email, req.body.password];
   const user = { email: values.email };
