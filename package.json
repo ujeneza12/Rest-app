@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "react-paginate": "^8.2.0",
-    "swagger-jsdoc": "^6.2.8"
-  }
-}
