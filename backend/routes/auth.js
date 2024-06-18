@@ -19,14 +19,16 @@ router.post("/employee-signin", (req, res) => {
     req.body.manufacturer,
     req.body.model,
     req.body.serialNumber,
-  ];
+  ]
 
   db.query(sql, [values], (err, data) => {
     if (err) {
       return res.json(err);
+    }else{
+
+      return res.json(data);
     }
-    return res.json(data);
-  });
+  })
 }); 
 
 router.post("/employee-login", (req, res) => {
